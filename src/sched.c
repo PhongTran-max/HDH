@@ -83,10 +83,9 @@ struct pcb_t * get_mlq_proc(void) {
 		cur_prio = (cur_prio+1) % MAX_PRIO;
 	}
 
-	pthread_mutex_lock(&queue_lock);
-
 	if (proc != NULL)
 		enqueue(&running_list, proc);
+		pthread_mutex_unlock(&queue_lock);
 	return proc;	
 }
 
