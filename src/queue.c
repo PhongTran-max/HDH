@@ -29,19 +29,16 @@ struct pcb_t *dequeue(struct queue_t *q)
          * */
         if(q==NULL || q->size == 0) return NULL;
 
-        int highest_idx = 0;
+        int highest = 0;
         for(int i=0; i<q->size; ++i)
         {
-        #ifdef MLQ_SCHED
-                if(q->proc[i]->prio < q->proc[highest_idx]->prio) highest_idx = i;
-        #else
-                if(q->proc[i]->priority < q->proc[highest_idx]->priority) highest_idx = i;
-        #endif
+                if(q->proc[i]->priority < q->proc[highest]->priority) highest = i;
+
         }
 
-        struct pcb_t *ret = q->proc[highest_idx];
+        struct pcb_t *ret = q->proc[highest];
 
-        for(int i = highest_idx; i<q->size-1; ++i){
+        for(int i = highest; i<q->size-1; ++i){
                 q->proc[i] = q->proc[i+1];
         }
         q->proc[--q->size] = NULL;
